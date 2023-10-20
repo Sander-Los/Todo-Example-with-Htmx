@@ -1,0 +1,3 @@
+﻿@model int
+
+<span hx-get="@Url.SurfaceAction("GetNumberOfTodos", "TodoHandler")" hx-trigger="todoCountUpdated from:body">(@Model)</span>

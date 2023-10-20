@@ -1,0 +1,11 @@
+﻿<language culture="en-US">
+	<area alias="login">
+		<key alias="greeting0">admin@example.com / admin1234!</key>
+		<key alias="greeting1">admin@example.com / admin1234!</key>
+		<key alias="greeting2">admin@example.com / admin1234!</key>
+		<key alias="greeting3">admin@example.com / admin1234!</key>
+		<key alias="greeting4">admin@example.com / admin1234!</key>
+		<key alias="greeting5">admin@example.com / admin1234!</key>
+		<key alias="greeting6">admin@example.com / admin1234!</key>
+	</area>
+</language>

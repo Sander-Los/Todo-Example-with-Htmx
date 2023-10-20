@@ -1,0 +1,30 @@
+﻿@using System.Text.Json
+@inherits UmbracoViewPage<Todo>
+
+<li id="todo-@Model.Id" class="list-group-item d-flex justify-content-between align-items-center @(Model.Completed ? "list-group-item-success" : "")">
+    <span style="@(Model.Completed? "text-decoration: line-through;" : "")">@Model.Name</span>
+    <div class="btn-group">
+        @if(Model.Completed)
+        {
+            <button 
+                hx-put="@Url.SurfaceAction("UnmarkCompleted", "TodoHandler")&id=@Model.Id" 
+                hx-swap="outerHTML" 
+                hx-target="#todo-@Model.Id"
+                class="btn btn-warning mx-1 rounded">Set to Active</button>
+        }
+        else
+        {
+            <button 
+                hx-put="@Url.SurfaceAction("MarkCompleted", "TodoHandler")&id=@Model.Id" 
+                hx-swap="outerHTML" 
+                hx-target="#todo-@Model.Id"
+                class="btn btn-success mx-1 rounded">Mark Completed</button>
+        }
+
+        <button 
+            hx-delete="@Url.SurfaceAction("DeleteTodo", "TodoHandler")&id=@Model.Id" 
+            hx-swap="outerHTML" 
+            hx-target="#todo-@Model.Id" 
+            class="btn btn-danger rounded">Delete</button>
+    </div>
+</li>

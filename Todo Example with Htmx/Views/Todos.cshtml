@@ -1,0 +1,56 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Todos>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    Layout = "Master.cshtml";
+}
+
+<style>
+    .htmx-indicator {
+        opacity: 0;
+        transition: opacity 500ms ease-in;
+    }
+
+    .htmx-request .htmx-indicator {
+        opacity: 1
+    }
+
+    .htmx-request.htmx-indicator {
+        opacity: 1
+    }
+</style>
+
+<div class="container">
+    <div class="row mt-5">
+        @if (!string.IsNullOrEmpty(Model.Title))
+        {
+            <h1>@Model.Title</h1>
+        }
+    </div>
+
+    <div class="row">
+        <h2>Todos @await Html.PartialAsync("Todos/_TodoCount", Model.Children().Count()):</h2>
+        <ul id="todos" class="mx-3 list-group">
+            <li class="d-none"></li>
+            @foreach (var todo in Model.Children().Cast<Todo>().OrderBy(x => x.CreateDate))
+            {
+                @await Html.PartialAsync("Todos/_Todo", todo)
+            }
+        </ul>
+    </div>
+    <div class="row mt-5">
+        <div class="col-6">
+            <form id="js-todoForm" hx-post="@Url.SurfaceAction("AddTodo", "TodoHandler")"
+                  hx-swap="afterend"
+                  hx-target="#todos li:last-child">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Enter todo" aria-label="Enter todo" aria-describedby="button-addon2" name="todo">
+                    @Html.AntiForgeryToken()
+                    <button class="btn btn-primary subBtn" id="button-addon2">
+                        <span class="default">Add Todo</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@inherits UmbracoViewPage
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Umbraco todo list with Htmx</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="htmx-config" includeAspNetAntiforgeryToken="true" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css">
+
+    <script defer src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+    <script defer src="~/lib/popper.js/umd/popper.min.js" asp-append-version="true"></script>
+    <script defer src="~/lib/bootstrap/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script defer src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script>
+    <script defer src="~/customScripts.js" asp-append-version="true"></script>
+
+</head>
+<body>
+@RenderBody()
+</body>
+<script>
+    document.addEventListener("htmx:configRequest", (evt) => {
+        let httpVerb = evt.detail.verb.toUpperCase();
+        if (httpVerb === 'GET') return;
+    
+        let antiForgery = htmx.config.antiForgery;
+
+        if (antiForgery) {
+        
+            // already specified on form, short circuit
+            if (evt.detail.parameters[antiForgery.formFieldName])
+                return;
+        
+            if (antiForgery.headerName) {
+                evt.detail.headers[antiForgery.headerName]
+                    = antiForgery.requestToken;
+            } else {
+                evt.detail.parameters[antiForgery.formFieldName]
+                    = antiForgery.requestToken;
+            }
+        }
+    });
+</script>
+</html>
